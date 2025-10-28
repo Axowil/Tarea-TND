@@ -1,0 +1,291 @@
+/* ============================================
+   RESET Y CONFIGURACIÓN BASE
+============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e6e6e6;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+/* ============================================
+   BOTÓN DE REGRESO
+============================================ */
+.back-btn {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.back-btn:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #FFD700;
+    transform: translateX(-5px);
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+}
+
+.back-icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover .back-icon {
+    transform: translateX(-5px);
+}
+
+/* ============================================
+   CONTENEDOR PRINCIPAL
+============================================ */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+
+/* ============================================
+   ENCABEZADO
+============================================ */
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.page-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: 5px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+.page-subtitle {
+    font-size: 1.3rem;
+    color: #aaa;
+    letter-spacing: 2px;
+}
+
+/* ============================================
+   GRID DE GRÁFICOS
+============================================ */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.chart-box {
+    background: rgba(30, 30, 46, 0.8);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 1s ease-out;
+}
+
+.chart-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+}
+
+.chart-title {
+    font-size: 1.5rem;
+    color: #00ffff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+/* ============================================
+   SECCIÓN DE MÉTRICAS
+============================================ */
+.metrics-section {
+    margin-top: 3rem;
+    animation: fadeIn 1.2s ease-out;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #FFD700;
+    letter-spacing: 3px;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.metric-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    animation: scaleIn 0.8s ease-out;
+}
+
+.metric-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #00ffff;
+    box-shadow: 0 15px 40px rgba(0, 255, 255, 0.3);
+}
+
+.metric-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.metric-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.metric-label {
+    color: #aaa;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.metric-game {
+    color: #FFD700;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* ============================================
+   ANIMACIONES
+============================================ */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+============================================ */
+@media (max-width: 1200px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1rem;
+    }
+    
+    .back-btn {
+        top: 1rem;
+        left: 1rem;
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+    }
+    
+    .chart-box {
+        padding: 1.5rem;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .metric-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .metric-value {
+        font-size: 2rem;
+    }
+}

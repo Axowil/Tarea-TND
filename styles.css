@@ -1,3 +1,6 @@
+/* ============================================
+   RESET Y CONFIGURACIÓN BASE
+============================================ */
 * {
     margin: 0;
     padding: 0;
@@ -9,22 +12,43 @@ body {
     overflow-x: hidden;
     background: #000;
     color: #fff;
+    
 }
 
-/* SCROLL SNAP - CLAVE PARA EL EFECTO DE UNA PÁGINA POR SCROLL */
+/* ============================================
+   SCROLL SNAP - Efecto de scroll de página completa
+============================================ */
+/* ============================================
+   SCROLL SNAP MEJORADO - SIN SCROLLBAR
+============================================ */
 .game-container {
     height: 100vh;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    
+    /* Ocultar scrollbar en todos los navegadores */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE y Edge */
+    
+    /* Evitar scroll excesivo */
+    overscroll-behavior-y: contain;
 }
 
-/* Cada juego ocupa toda la pantalla */
+/* Ocultar scrollbar en Chrome, Safari, Opera */
+.game-container::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+/* Asegurar snap fuerte en cada sección */
 .game-slide {
     height: 100vh;
     width: 100%;
     scroll-snap-align: start;
-    scroll-snap-stop: always; /* Ya lo tienes, pero asegúrate que esté */
+    scroll-snap-stop: always;
     position: relative;
     display: flex;
     justify-content: center;
@@ -35,40 +59,40 @@ body {
 }
 
 
-/* AQUÍ COLOCAS LAS IMÁGENES DE FONDO PARA CADA JUEGO */
-/* Descarga las imágenes y colócalas en una carpeta "images" */
-
+/* Imágenes de fondo para cada juego */
 #game-1 {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('black-myth-wukong-jz9yr.jpg');
-    /* REEMPLAZA con: background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('images/black-myth-wukong.jpg'); */
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
+                      url('black-myth-wukong-jz9yr.jpg');
 }
 
 #game-2 {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('Elden-ring.jpg');
-    /* REEMPLAZA con: url('images/elden-ring.jpg'); */
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
+                      url('Elden-ring.jpg');
 }
 
 #game-3 {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('Hell.png');
-    /* REEMPLAZA con: url('images/helldivers-2.jpg'); */
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
+                      url('Hell.png');
 }
 
 #game-4 {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('Phas.png');
-    /* REEMPLAZA con: url('images/phasmophobia.jpg'); */
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
+                      url('Phas.png');
 }
 
 #game-5 {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('Baldur1.jpg');
-    /* REEMPLAZA con: url('images/baldurs-gate-3.jpg'); */
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
+                      url('Baldur1.jpg');
 }
 
 #game-6 {
-    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('Cyberpunk.jpg');
-    /* REEMPLAZA con: url('images/cyberpunk-2077.jpg'); */
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
+                      url('Cyberpunk.jpg');
 }
 
-/* Overlay oscuro para mejorar legibilidad */
+/* ============================================
+   OVERLAY Y CONTENIDO
+============================================ */
 .overlay {
     position: absolute;
     top: 0;
@@ -79,40 +103,20 @@ body {
     z-index: 1;
 }
 
-/* Contenido del juego - FIJADO */
 .game-content {
     position: relative;
     z-index: 2;
     max-width: 900px;
     padding: 2rem;
     text-align: center;
-    /* REMOVIDO: opacity: 0; transform inicial */
-    /* Ahora empieza visible y estático por defecto */
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
 }
-
-/* Solo animar cuando el slide está activo */
-.game-slide.active .game-content {
-    animation: slideIn 1s ease-out forwards;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
 
 .game-content.animate-in {
     animation: slideIn 1s ease-out forwards;
 }
 
-
-
 @keyframes slideIn {
     to {
         opacity: 1;
@@ -120,7 +124,49 @@ body {
     }
 }
 
-/* Badge de ranking */
+/* ============================================
+   ENCABEZADO PRINCIPAL
+============================================ */
+.main-header {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInDown 1.2s ease-out 0.3s forwards;
+}
+
+.main-title {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    background: linear-gradient(135deg, #FFD700, #FFA500, #FF6B00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+    margin-bottom: 0.5rem;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+#game-1 .game-content {
+    margin-top: 15vh;
+}
+
+/* ============================================
+   BADGE DE RANKING
+============================================ */
 .rank-badge {
     display: inline-block;
     background: linear-gradient(135deg, #FFD700, #FFA500);
@@ -139,7 +185,9 @@ body {
     50% { transform: scale(1.05); }
 }
 
-/* Título del juego con efecto glitch */
+/* ============================================
+   TÍTULO DEL JUEGO CON EFECTO GLITCH
+============================================ */
 .game-title {
     font-size: 5rem;
     font-weight: 900;
@@ -190,7 +238,9 @@ body {
     100% { clip: rect(44px, 9999px, 32px, 0); }
 }
 
-/* Información del juego */
+/* ============================================
+   INFORMACIÓN DEL JUEGO
+============================================ */
 .game-info {
     display: flex;
     justify-content: center;
@@ -208,11 +258,22 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.year { color: #FFD700; font-weight: bold; }
-.rating { color: #00ff00; }
-.genre { color: #00ffff; }
+.year { 
+    color: #FFD700; 
+    font-weight: bold; 
+}
 
-/* Descripción */
+.rating { 
+    color: #00ff00; 
+}
+
+.genre { 
+    color: #00ffff; 
+}
+
+/* ============================================
+   DESCRIPCIÓN Y ESTADÍSTICAS
+============================================ */
 .game-description {
     font-size: 1.3rem;
     line-height: 1.8;
@@ -223,7 +284,6 @@ body {
     margin-right: auto;
 }
 
-/* Estadísticas */
 .game-stats {
     display: flex;
     justify-content: center;
@@ -252,7 +312,9 @@ body {
     letter-spacing: 2px;
 }
 
-/* Navegación con puntos indicadores */
+/* ============================================
+   NAVEGACIÓN CON PUNTOS INDICADORES
+============================================ */
 .nav-indicators {
     position: fixed;
     right: 2rem;
@@ -285,7 +347,133 @@ body {
     transform: scale(1.5);
 }
 
-/* Responsive */
+/* ============================================
+   SECCIÓN FINAL - BOTÓN DE COMPARATIVA
+============================================ */
+.final-slide {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+}
+
+.final-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.final-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 1s ease-out;
+}
+
+.final-description {
+    font-size: 1.4rem;
+    color: #ddd;
+    margin-bottom: 3rem;
+    line-height: 1.8;
+    animation: fadeIn 1.2s ease-out;
+}
+
+/* ============================================
+   BOTÓN ANIMADO DE COMPARATIVA
+============================================ */
+.comparison-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 3rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+    animation: bounceIn 1.5s ease-out;
+}
+
+.comparison-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.comparison-btn:hover::before {
+    left: 100%;
+}
+
+.comparison-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 50px rgba(255, 215, 0, 0.6);
+    background: linear-gradient(135deg, #FFA500, #FFD700);
+}
+
+.comparison-btn:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+.btn-text {
+    letter-spacing: 2px;
+    z-index: 1;
+}
+
+.btn-icon {
+    font-size: 2rem;
+    animation: rotate 2s linear infinite;
+    z-index: 1;
+}
+
+@keyframes rotate {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+============================================ */
 @media (max-width: 768px) {
     .game-title {
         font-size: 3rem;
@@ -314,174 +502,21 @@ body {
         font-size: 1rem;
         padding: 0.4rem 1rem;
     }
-}
-
-/* Animación al cambiar de sección */
-.game-slide.active .game-content {
-    animation: zoomIn 0.8s ease-out;
-}
-
-@keyframes zoomIn {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-/* Encabezado principal - Solo en el primer slide */
-.main-header {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    text-align: center;
-    opacity: 0;
-    animation: fadeInDown 1.2s ease-out 0.3s forwards;
-}
-
-.main-title {
-    font-size: 4rem;
-    font-weight: 900;
-    letter-spacing: 8px;
-    background: linear-gradient(135deg, #FFD700, #FFA500, #FF6B00);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
-    margin-bottom: 0.5rem;
-}
-
-.main-subtitle {
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 6px;
-    color: #fff;
-    text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-}
-
-/* Ajustar el contenido del juego para que no choque con el header */
-#game-1 .game-content {
-    margin-top: 15vh; /* Empuja el contenido hacia abajo */
-}
-
-/* ===== ESTILOS PARA SECCIÓN DE ANÁLISIS ===== */
-
-.analysis-slide {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
-}
-
-.analysis-content {
-    max-width: 1200px !important;
-    text-align: center;
-}
-
-.charts-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    margin: 2rem 0;
-    width: 100%;
-}
-
-.chart-container {
-    background: rgba(30, 30, 46, 0.8);
-    border-radius: 12px;
-    padding: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-}
-
-.chart-container h3 {
-    color: #00ffff;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    text-align: center;
-}
-
-.chart-container canvas {
-    width: 100% !important;
-    height: 250px !important;
-}
-
-.metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    margin-top: 2rem;
-    width: 100%;
-}
-
-.metric-card {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 1.5rem;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.metric-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.metric-value {
-    font-size: 2rem;
-    font-weight: bold;
-    background: linear-gradient(45deg, #00ffff, #ff00ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: block;
-    margin-bottom: 0.5rem;
-}
-
-.metric-label {
-    color: #aaa;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Responsive para análisis */
-@media (max-width: 968px) {
-    .charts-grid {
-        grid-template-columns: 1fr;
+    
+    .main-title {
+        font-size: 2.5rem;
     }
     
-    .metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .final-title {
+        font-size: 2.5rem;
     }
     
-    .chart-container {
-        padding: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .metrics-grid {
-        grid-template-columns: 1fr;
+    .final-description {
+        font-size: 1.1rem;
     }
     
-    .metric-card {
-        padding: 1rem;
-    }
-    
-    .metric-value {
-        font-size: 1.5rem;
+    .comparison-btn {
+        font-size: 1.2rem;
+        padding: 1.2rem 2rem;
     }
 }

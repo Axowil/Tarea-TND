@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Comparativo - Top Juegos Steam</title>
+    <link rel="stylesheet" href="comparativa-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Botón de regreso -->
+    <a href="index.html" class="back-btn">
+        <span class="back-icon">←</span>
+        <span class="back-text">Volver</span>
+    </a>
+
+        <div class="container">
+        <header class="header">
+            <h1 class="page-title">ANÁLISIS COMPARATIVO</h1>
+            <p class="page-subtitle">Datos y estadísticas detalladas de los mejores juegos</p>
+        </header>
+
+        <!-- Grid de gráficos -->
+        <div class="charts-grid">
+            <div class="chart-box">
+                <h3 class="chart-title">Rating y Reseñas</h3>
+                <div class="chart-container">
+                    <canvas id="ratingChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <h3 class="chart-title">Jugadores Simultáneos</h3>
+                <div class="chart-container">
+                    <canvas id="playersChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <h3 class="chart-title">Precios de Lanzamiento</h3>
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-box">
+                <h3 class="chart-title">Métricas Comparativas</h3>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métricas destacadas -->
+        <div class="metrics-section">
+            <h2 class="section-title">Métricas Destacadas</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-icon">👑</div>
+                    <div class="metric-value">96%</div>
+                    <div class="metric-label">Mejor Rating</div>
+                    <div class="metric-game">Baldur's Gate 3</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">🎮</div>
+                    <div class="metric-value">1M+</div>
+                    <div class="metric-label">Máx. Jugadores</div>
+                    <div class="metric-game">Black Myth: Wukong</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">💰</div>
+                    <div class="metric-value">$13.99</div>
+                    <div class="metric-label">Precio Más Bajo</div>
+                    <div class="metric-game">Phasmophobia</div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-icon">📝</div>
+                    <div class="metric-value">1.5M+</div>
+                    <div class="metric-label">Más Reseñas</div>
+                    <div class="metric-game">Black Myth: Wukong</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="comparativa-script.js"></script>
+</body>
+</html>
