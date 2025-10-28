@@ -520,3 +520,186 @@ body {
         padding: 1.2rem 2rem;
     }
 }
+/* ============================================
+   ANIMACIONES DE ENTRADA - MATRIX/GLITCH
+============================================ */
+
+.game-content {
+    opacity: 0;
+    filter: blur(20px);
+    transform: scale(1.2);
+    transition: none;
+}
+
+.game-slide.active .game-content,
+.game-content.animate-in {
+    animation: glitchReveal 1s ease-out forwards;
+}
+
+@keyframes glitchReveal {
+    0% {
+        opacity: 0;
+        filter: blur(20px);
+        transform: scale(1.2);
+    }
+    20% {
+        opacity: 0.5;
+        filter: blur(10px);
+        transform: scale(1.1) translateX(-10px);
+    }
+    40% {
+        opacity: 0.7;
+        filter: blur(5px);
+        transform: scale(1.05) translateX(10px);
+    }
+    60% {
+        opacity: 0.9;
+        filter: blur(2px);
+        transform: scale(1.02) translateX(-5px);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: scale(1) translateX(0);
+    }
+}
+
+/* Badge con efecto de energía */
+.rank-badge {
+    opacity: 0;
+    animation: energyPulse 1.5s ease-out 0.2s forwards;
+}
+
+@keyframes energyPulse {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 50px rgba(255, 215, 0, 0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 10px 40px rgba(255, 215, 0, 0.5);
+    }
+}
+
+/* Título con glitch intenso */
+.game-title {
+    opacity: 0;
+    animation: glitchTitle 1s ease-out 0.4s forwards;
+}
+
+@keyframes glitchTitle {
+    0%, 100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        opacity: 0.8;
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        opacity: 0.9;
+        transform: translateX(5px);
+    }
+    0% {
+        opacity: 0;
+        filter: blur(10px);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+/* Stats con efecto de conteo */
+.stat-value {
+    animation: counterUp 1.5s ease-out 1.2s forwards;
+}
+
+@keyframes counterUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.5);
+    }
+    50% {
+        transform: translateY(-10px) scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Animación de la sección final */
+.final-content {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.final-slide.active .final-content {
+    animation: finalSlideIn 1s ease-out forwards;
+}
+
+@keyframes finalSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.final-title {
+    opacity: 0;
+    animation: titleBounce 1s ease-out 0.3s forwards;
+}
+
+@keyframes titleBounce {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    60% {
+        transform: translateY(10px);
+    }
+    80% {
+        transform: translateY(-5px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.final-description {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.6s forwards;
+}
+
+.comparison-btn {
+    opacity: 0;
+    animation: btnBounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.9s forwards;
+}
+
+@keyframes btnBounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+    }
+    60% {
+        transform: scale(1.1) rotate(10deg);
+    }
+    80% {
+        transform: scale(0.95) rotate(-5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}

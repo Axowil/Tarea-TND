@@ -24,7 +24,10 @@ dots.forEach((dot, index) => {
     });
 });
 
-// Observer para detectar qué slide está visible
+// ============================================
+// OBSERVER MEJORADO CON ANIMACIONES
+// ============================================
+
 const observerOptions = {
     root: container,
     threshold: 0.6
@@ -38,6 +41,18 @@ const observer = new IntersectionObserver((entries) => {
                 currentSlide = index;
                 updateActiveIndicator(index);
             }
+            
+            // Agregar clase active para activar animaciones
+            entry.target.classList.add('active');
+            
+            // Agregar animación al contenido
+            const content = entry.target.querySelector('.game-content, .final-content');
+            if (content && !content.classList.contains('animate-in')) {
+                content.classList.add('animate-in');
+            }
+        } else {
+            // Remover clase active cuando sale de vista
+            entry.target.classList.remove('active');
         }
     });
 }, observerOptions);
@@ -46,23 +61,13 @@ gameSlides.forEach(slide => {
     observer.observe(slide);
 });
 
-// ============================================
-// ANIMACIÓN DE CONTENIDO AL ENTRAR EN VISTA
-// ============================================
-
-const contentObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const content = entry.target.querySelector('.game-content, .final-content');
-            if (content && !content.classList.contains('animate-in')) {
-                content.classList.add('animate-in');
-            }
-        }
-    });
-}, { threshold: 0.5 });
-
-gameSlides.forEach(slide => {
-    contentObserver.observe(slide);
+// Activar la primera sección al cargar
+window.addEventListener('load', () => {
+    gameSlides[0].classList.add('active');
+    const firstContent = gameSlides[0].querySelector('.game-content');
+    if (firstContent) {
+        firstContent.classList.add('animate-in');
+    }
 });
 
 // ============================================
