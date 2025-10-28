@@ -1,156 +1,178 @@
-const gameSlides = document.querySelectorAll('.game-slide');
-const dots = document.querySelectorAll('.dot');
-const container = document.querySelector('.game-container');
-
-let currentSlide = 0;
-let isScrolling = false;
-let scrollTimeout;
-
-// Tiempo mínimo entre cambios de slide (en milisegundos)
-const SCROLL_DELAY = 1000; // Aumenta este valor para más tiempo entre slides
-let lastScrollTime = 0;
-
-function updateActiveIndicator(index) {
-    dots.forEach(dot => dot.classList.remove('active'));
-    dots[index].classList.add('active');
-    
-    gameSlides.forEach(slide => slide.classList.remove('active'));
-    gameSlides[index].classList.add('active');
-}
-
-// Función throttle mejorada
-function throttle(func, delay) {
-    let lastCall = 0;
-    return function(...args) {
-        const now = Date.now();
-        if (now - lastCall < delay) {
-            return;
+// Inicializar gráficos cuando la sección de análisis esté visible
+const analysisObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            initializeCharts();
         }
-        lastCall = now;
-        return func(...args);
-    };
-}
-
-// Scroll handler con debounce aumentado
-function handleScroll() {
-    clearTimeout(scrollTimeout);
-    
-    scrollTimeout = setTimeout(() => {
-        const scrollPosition = container.scrollTop;
-        const slideHeight = window.innerHeight;
-        const newSlide = Math.round(scrollPosition / slideHeight);
-        
-        if (newSlide !== currentSlide && newSlide >= 0 && newSlide < gameSlides.length) {
-            currentSlide = newSlide;
-            updateActiveIndicator(currentSlide);
-        }
-        
-        isScrolling = false;
-    }, ); // Aumentado de 100ms a 300ms
-}
-
-// Navegación controlada con delay
-function navigateToSlide(index) {
-    const now = Date.now();
-    
-    // Prevenir cambios demasiado rápidos
-    if (now - lastScrollTime < SCROLL_DELAY) {
-        return;
-    }
-    
-    lastScrollTime = now;
-    currentSlide = index;
-    
-    container.scrollTo({
-        top: index * window.innerHeight,
-        behavior: 'smooth'
     });
-    
-    updateActiveIndicator(index);
+}, { threshold: 0.5 });
+
+const analysisSlide = document.getElementById('analysis');
+if (analysisSlide) {
+    analysisObserver.observe(analysisSlide);
 }
 
-// Click en dots con delay
-dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        navigateToSlide(index);
-    });
-});
-
-// Scroll con throttle
-const throttledScroll = throttle(handleScroll, 150);
-container.addEventListener('scroll', throttledScroll);
-
-// Navegación con teclado con delay
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown' && currentSlide < gameSlides.length - 1) {
-        e.preventDefault();
-        navigateToSlide(currentSlide + 1);
-    } else if (e.key === 'ArrowUp' && currentSlide > 0) {
-        e.preventDefault();
-        navigateToSlide(currentSlide - 1);
-    }
-});
-
-// Gestos táctiles mejorados con threshold más alto
-let touchStartY = 0;
-let touchEndY = 0;
-const SWIPE_THRESHOLD = 100; // Aumentado de 50 a 100
-
-container.addEventListener('touchstart', (e) => {
-    touchStartY = e.changedTouches[0].screenY;
-}, { passive: true });
-
-container.addEventListener('touchend', (e) => {
-    touchEndY = e.changedTouches[0].screenY;
-    handleSwipe();
-}, { passive: true });
-
-function handleSwipe() {
-    const diff = touchStartY - touchEndY;
-    const now = Date.now();
+function initializeCharts() {
+    // Solo inicializar si no existen
+    if (window.chartsInitialized) return;
+    window.chartsInitialized = true;
     
-    // Verificar delay mínimo entre swipes
-    if (now - lastScrollTime < SCROLL_DELAY) {
-        return;
-    }
+    // Datos de los juegos
+    const games = [
+        { name: 'BLACK MYTH: WUKONG', rating: 95, reviews: 1500000, players: 1000000, price: 59.99, achievements: 50 },
+        { name: 'ELDEN RING', rating: 91, reviews: 680000, players: 953426, price: 59.99, achievements: 42 },
+        { name: 'HELLDIVERS™ 2', rating: 87, reviews: 720000, players: 489000, price: 39.99, achievements: 35 },
+        { name: 'PHASMOPHOBIA', rating: 94, reviews: 570000, players: 80000, price: 13.99, achievements: 15 },
+        { name: 'BALDUR\'S GATE 3', rating: 96, reviews: 600000, players: 300000, price: 59.99, achievements: 75 },
+        { name: 'CYBERPUNK 2077', rating: 82, reviews: 660000, players: 250000, price: 59.99, achievements: 45 }
+    ];
+
+    const colors = ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40'];
     
-    if (Math.abs(diff) > SWIPE_THRESHOLD) {
-        if (diff > 0 && currentSlide < gameSlides.length - 1) {
-            navigateToSlide(currentSlide + 1);
-        } else if (diff < 0 && currentSlide > 0) {
-            navigateToSlide(currentSlide - 1);
+    // Gráfico de Rating
+    new Chart(document.getElementById('ratingChart'), {
+        type: 'bar',
+        data: {
+            labels: games.map(g => g.name.split(':')[0]),
+            datasets: [{
+                label: 'Rating (%)',
+                data: games.map(g => g.rating),
+                backgroundColor: colors,
+                borderColor: colors.map(c => c.replace('0.7', '1')),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { 
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: { color: '#fff' },
+                    grid: { color: 'rgba(255,255,255,0.1)' }
+                },
+                x: {
+                    ticks: { 
+                        color: '#fff',
+                        maxRotation: 45
+                    },
+                    grid: { color: 'rgba(255,255,255,0.1)' }
+                }
+            }
         }
-    }
+    });
+
+    // Gráfico de Jugadores
+    new Chart(document.getElementById('playersChart'), {
+        type: 'bar',
+        data: {
+            labels: games.map(g => g.name.split(':')[0]),
+            datasets: [{
+                label: 'Jugadores Máximos',
+                data: games.map(g => g.players),
+                backgroundColor: colors,
+                borderColor: colors.map(c => c.replace('0.7', '1')),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { 
+                    beginAtZero: true,
+                    ticks: { 
+                        color: '#fff',
+                        callback: function(value) {
+                            return value >= 1000000 ? (value/1000000).toFixed(1) + 'M' : 
+                                   value >= 1000 ? (value/1000).toFixed(0) + 'K' : value;
+                        }
+                    },
+                    grid: { color: 'rgba(255,255,255,0.1)' }
+                },
+                x: {
+                    ticks: { 
+                        color: '#fff',
+                        maxRotation: 45
+                    },
+                    grid: { color: 'rgba(255,255,255,0.1)' }
+                }
+            }
+        }
+    });
+
+    // Gráfico de Precios
+    new Chart(document.getElementById('priceChart'), {
+        type: 'pie',
+        data: {
+            labels: games.map(g => g.name.split(':')[0]),
+            datasets: [{
+                data: games.map(g => g.price),
+                backgroundColor: colors,
+                borderColor: colors.map(c => c.replace('0.7', '1')),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#fff' }
+                }
+            }
+        }
+    });
+
+    // Gráfico de Radar
+    new Chart(document.getElementById('radarChart'), {
+        type: 'radar',
+        data: {
+            labels: ['Rating', 'Reseñas', 'Jugadores', 'Precio', 'Logros'],
+            datasets: games.map((game, i) => ({
+                label: game.name.split(':')[0],
+                data: [
+                    game.rating,
+                    game.reviews / 20000,
+                    game.players / 20000,
+                    game.price * 1.5,
+                    game.achievements
+                ],
+                backgroundColor: colors[i].replace(')', ', 0.2)'),
+                borderColor: colors[i],
+                borderWidth: 2
+            }))
+        },
+        options: {
+            responsive: true,
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(255,255,255,0.1)' },
+                    grid: { color: 'rgba(255,255,255,0.1)' },
+                    pointLabels: { color: '#fff' },
+                    ticks: { 
+                        color: '#fff',
+                        backdropColor: 'transparent'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: { color: '#fff' }
+                }
+            }
+        }
+    });
 }
-
-// Prevenir scroll con rueda mientras está en transición
-container.addEventListener('wheel', (e) => {
-    const now = Date.now();
-    if (now - lastScrollTime < SCROLL_DELAY) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
-// Prevenir zoom en móviles
-let lastTouchEnd = 0;
-document.addEventListener('touchend', (e) => {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 300) {
-        e.preventDefault();
-    }
-    lastTouchEnd = now;
-}, false);
-
-// Inicialización
-window.addEventListener('load', () => {
-    updateActiveIndicator(0);
-    gameSlides[0].classList.add('active');
-});
-
 // Observer mejorado
 const observerOptions = {
     root: container,
-    threshold: 0.6 // Aumentado de 0.5 a 0.6 para mayor precisión
+    threshold: 0.6
 };
 
 const observer = new IntersectionObserver((entries) => {
@@ -168,6 +190,7 @@ const observer = new IntersectionObserver((entries) => {
 gameSlides.forEach(slide => {
     observer.observe(slide);
 });
+
 // Agregar animación solo cuando el slide entra en vista
 const contentObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
